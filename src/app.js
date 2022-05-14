@@ -1,7 +1,21 @@
 import express from "express";
-const app = new express();
+import bodyParser from "body-parser";
 
-const port = 3000 || process.env.PORT ;
+import UserRoutes from './api/routes/user.js'
+
+const app = new express();
+const port = 3000 || process.env.PORT;
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use("/api/users/", UserRoutes);
+
+app.use((req, res)=>{
+    res.json({
+        "error_message": 404
+    })
+})
 
 app.listen(port, () => {
     console.log(`Server is Listening on Port ${port}`);
